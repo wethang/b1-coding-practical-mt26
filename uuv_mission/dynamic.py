@@ -105,6 +105,7 @@ class ClosedLoop:
         for t in range(T):
             positions[t] = self.plant.get_position()
             observation_t = self.plant.get_depth()
+            # Call the controller
             actions[t], error = self.controller(mission.reference[t], observation_t, error)
             self.plant.transition(actions[t], disturbances[t])
             
