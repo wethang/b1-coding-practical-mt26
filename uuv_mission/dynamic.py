@@ -3,7 +3,6 @@ from dataclasses import dataclass
 import numpy as np
 import matplotlib.pyplot as plt
 from .terrain import generate_reference_and_limits
-from .control import PDcontroller
 import pandas as pd # assignment suggests this import  
 
 class Submarine:
@@ -106,6 +105,7 @@ class ClosedLoop:
         for t in range(T):
             positions[t] = self.plant.get_position()
             observation_t = self.plant.get_depth()
+            # Call the controller
             actions[t], error = self.controller(mission.reference[t], observation_t, error)
             self.plant.transition(actions[t], disturbances[t])
             
