@@ -1,5 +1,3 @@
-import numpy as np
-
 def PDcontroller(reference: float, position: float, error: float):
     Kp = 0.15   # Proportional Gain
     Kd = 0.6    # Derivative Gain
