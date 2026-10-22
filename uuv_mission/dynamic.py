@@ -3,6 +3,7 @@ from dataclasses import dataclass
 import numpy as np
 import matplotlib.pyplot as plt
 from .terrain import generate_reference_and_limits
+from .control import PDcontroller
 import pandas as pd # assignment suggests this import  
 
 class Submarine:
@@ -100,17 +101,14 @@ class ClosedLoop:
         positions = np.zeros((T, 2))
         actions = np.zeros(T)
         self.plant.reset_state()
-
-        error = 0 #Initialize error for controller
+        error = 0   # Initialize error for controller
 
         for t in range(T):
             positions[t] = self.plant.get_position()
             observation_t = self.plant.get_depth()
-            # Call your controller here
             actions[t], error = self.controller(mission.reference[t], observation_t, error)
-
             self.plant.transition(actions[t], disturbances[t])
-
+            
         return Trajectory(positions)
         
     def simulate_with_random_disturbances(self, mission: Mission, variance: float = 0.5) -> Trajectory:
